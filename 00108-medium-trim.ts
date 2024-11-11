@@ -15,6 +15,13 @@ type cases = [
 // ============= Your Code Here =============
 type Space = " " | "\t" | "\n";
 
+type Trim<S extends string> = S extends
+  | `${Space}${infer T}`
+  | `${infer T}${Space}`
+  ? Trim<T>
+  : S;
+
+/*
 type TrimStart<S extends string> = S extends `${Space}${infer T}`
   ? TrimStart<T>
   : S;
@@ -24,3 +31,4 @@ type TrimEnd<S extends string> = S extends `${infer T}${Space}`
   : S;
 
 type Trim<S extends string> = TrimEnd<TrimStart<S>>;
+*/
