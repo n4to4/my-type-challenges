@@ -35,4 +35,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type MyCapitalize<S extends string> = any;
+type MyCapitalize<S extends string> = S extends `${infer x}${infer tail}`
+  ? `${Uppercase<x>}${tail}`
+  : S;
