@@ -11,4 +11,14 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Replace<S extends string, From extends string, To extends string> = any;
+type Replace<
+  S extends string,
+  From extends string,
+  To extends string
+> = From extends ""
+  ? S
+  : S extends `${From}${infer Rest}`
+  ? `${To}${Rest}`
+  : S extends `${infer Head}${infer Tail}`
+  ? `${Head}${Replace<Tail, From, To>}`
+  : S;
