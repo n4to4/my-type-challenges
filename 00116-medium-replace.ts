@@ -17,8 +17,6 @@ type Replace<
   To extends string
 > = From extends ""
   ? S
-  : S extends `${From}${infer Rest}`
-  ? `${To}${Rest}`
-  : S extends `${infer Head}${infer Tail}`
-  ? `${Head}${Replace<Tail, From, To>}`
+  : S extends `${infer Head}${From}${infer Tail}`
+  ? `${Head}${To}${Tail}`
   : S;
