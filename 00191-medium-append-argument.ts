@@ -15,4 +15,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type AppendArgument<Fn, A> = any;
+type AppendArgument<Fn extends (...args: any[]) => any, A> = (
+  ...args: [...Parameters<Fn>, A]
+) => ReturnType<Fn>;
