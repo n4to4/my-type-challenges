@@ -45,4 +45,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type AppendToObject<T, U, V> = any;
+type AppendToObject<T, U extends string, V> = {
+  [Key in keyof T | U]: Key extends keyof T ? T[Key] : V;
+};
