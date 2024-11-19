@@ -45,6 +45,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type AppendToObject<T, U extends string, V> = {
+type _AppendToObject<T, U extends string, V> = {
   [Key in keyof T | U]: Key extends keyof T ? T[Key] : V;
 };
+
+type AppendToObject<T, U extends string, V> = Omit<T & { [k in U]: V }, never>;
+
+type X = AppendToObject<test1, "home", boolean>;
