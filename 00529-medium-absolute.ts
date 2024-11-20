@@ -16,5 +16,5 @@ type cases = [
 
 // ============= Your Code Here =============
 type Absolute<T extends number | string | bigint> = `${T}` extends `-${infer U}`
-  ? `${U}`
+  ? U
   : `${T}`;
