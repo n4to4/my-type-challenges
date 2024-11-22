@@ -24,7 +24,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Merge<F, S> = Omit<
+type Merge_1<F, S> = Omit<
   {
     [k in keyof F as k extends keyof S ? never : k]: F[k];
   } & {
@@ -32,6 +32,14 @@ type Merge<F, S> = Omit<
   },
   never
 >;
+
+type Merge<F, S> = {
+  [k in keyof F | keyof S]: k extends keyof S
+    ? S[k]
+    : k extends keyof F
+    ? F[k]
+    : never;
+};
 
 type X = Merge<Foo, Bar>;
 type Y = Merge<{ n: number }, { s: string }>;
