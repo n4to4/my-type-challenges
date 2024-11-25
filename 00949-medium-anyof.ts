@@ -19,4 +19,14 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type AnyOf<T extends readonly any[]> = any;
+type Falsy = 0 | "" | false | undefined | null | [] | { [key: string]: never };
+
+type AnyOf<T extends readonly any[]> = T extends [infer Head, ...infer Tail]
+  ? Head extends Falsy
+    ? AnyOf<Tail>
+    : true
+  : false;
+
+type X1 = AnyOf<[false]>;
+type X2 = AnyOf<[0]>;
+type Y = AnyOf<[0, "", false, []]>;
