@@ -18,4 +18,14 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IsUnion<T> = any;
+type IsUnionImpl<T, C extends T = T> = (
+  T extends T ? (C extends T ? true : unknown) : never
+) extends true
+  ? false
+  : true;
+type IsUnion<T> = IsUnionImpl<T>;
+
+type X1 = true extends true ? true : false;
+type X2 = unknown extends true ? true : false;
+type X3 = never extends true ? true : false;
+type X4 = false extends true ? true : false;
