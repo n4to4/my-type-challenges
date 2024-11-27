@@ -64,4 +64,8 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ReplaceKeys<U, T, Y> = any;
+type ReplaceKeys<T, Ks, KVs> = {
+  [k in keyof T]: k extends Ks ? (k extends keyof KVs ? KVs[k] : never) : T[k];
+};
+
+type X1 = ReplaceKeys<Nodes, "name" | "flag", { name: number; flag: string }>;
