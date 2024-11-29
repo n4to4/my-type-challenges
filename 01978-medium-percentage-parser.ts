@@ -30,4 +30,13 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type PercentageParser<A extends string> = any;
+type SignParser<A extends string> = A extends `+${infer Rest}`
+  ? UnitParser<Rest, "+">
+  : A extends `-${infer Rest}`
+  ? UnitParser<Rest, "-">
+  : UnitParser<A, "">;
+type UnitParser<A extends string, S extends string> = A extends `${infer Rest}%`
+  ? [S, Rest, "%"]
+  : [S, A, ""];
+
+type PercentageParser<A extends string> = SignParser<A>;
