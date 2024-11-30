@@ -13,4 +13,18 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type DropChar<S, C> = any;
+type DropChar<S extends string, C extends string> = C extends ""
+  ? S
+  : Recur<S, C, "">;
+
+type Recur<
+  S extends string,
+  C extends string,
+  Result extends string
+> = S extends ""
+  ? Result
+  : S extends `${infer Pre}${C}${infer Post}`
+  ? Recur<Post, C, `${Result}${Pre}`>
+  : `${Result}${S}`;
+
+type X1 = DropChar<" b u t t e r f l y ! ", " ">;
