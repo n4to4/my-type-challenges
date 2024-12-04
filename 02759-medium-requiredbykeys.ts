@@ -28,4 +28,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type RequiredByKeys<T, K> = any;
+type RequiredByKeys<T, K extends keyof T = keyof T> = Omit<
+  Required<Pick<T, K>> & Omit<T, K>,
+  never
+>;
+
+type X = RequiredByKeys<User, "name">;
+type Y = RequiredByKeys<User>;
