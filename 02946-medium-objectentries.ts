@@ -26,4 +26,19 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ObjectEntries<T> = any;
+type ObjectEntries<T, U = Required<T>> = {
+  [k in keyof U]: [k, U[k] extends never ? undefined : U[k]];
+}[keyof U];
+
+type X = ObjectEntries<Model>;
+type Y = ObjectEntries<Partial<Model>>;
+type Z = ObjectEntries<{ key?: undefined }>;
+
+interface Test {
+  key?: undefined;
+}
+type Entries<T, U = Required<T>> = {
+  [k in keyof U]: U[k];
+};
+type X1 = Entries<Test>;
+type X2 = Required<Test>;
