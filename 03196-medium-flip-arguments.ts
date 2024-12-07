@@ -26,4 +26,12 @@ type errors = [
 ];
 
 // ============= Your Code Here =============
-type FlipArguments<T> = any;
+type Reverse<T extends unknown[]> = T extends [infer A, ...infer B]
+  ? [...Reverse<B>, A]
+  : T;
+
+type FlipArguments<T extends Function> = T extends (...a: infer A) => infer R
+  ? (...a: Reverse<A>) => R
+  : never;
+
+type X = FlipArguments<(arg0: string, arg1: number) => boolean>;
