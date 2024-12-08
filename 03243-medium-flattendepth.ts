@@ -14,4 +14,23 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type FlattenDepth = any;
+type Flatten<T> = T extends [...infer U] ? U : [T];
+
+type FlattenDepth_1<T extends unknown[], Depth extends number = 1> = T extends [
+  infer A,
+  ...infer B
+]
+  ? [...Flatten<A>, ...FlattenDepth<B>]
+  : T;
+
+type FlattenDepth<
+  T extends any[],
+  S extends number = 1,
+  U extends any[] = []
+> = U["length"] extends S
+  ? T
+  : T extends [infer F, ...infer R]
+  ? F extends any[]
+    ? [...FlattenDepth<F, S, [...U, 1]>, ...FlattenDepth<R, S, U>]
+    : [F, ...FlattenDepth<R, S, U>]
+  : T;
