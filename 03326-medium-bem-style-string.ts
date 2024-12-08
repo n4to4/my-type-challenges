@@ -18,4 +18,13 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type BEM<B extends string, E extends string[], M extends string[]> = any;
+type ArrayToUnion<
+  T extends string[],
+  Prefix extends string
+> = T["length"] extends 0 ? "" : `${Prefix}${T[number]}`;
+
+type BEM<
+  B extends string,
+  E extends string[],
+  M extends string[]
+> = `${B}${ArrayToUnion<E, "__">}${ArrayToUnion<M, "--">}`;
