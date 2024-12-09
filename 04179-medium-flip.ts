@@ -11,4 +11,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Flip<T> = any;
+type Flip<T> = {
+  [k in keyof T as T[k] extends string | number | boolean
+    ? `${T[k]}`
+    : never]: k;
+};
+
+type X = Flip<{ pi: 3.14; bool: true }>;
