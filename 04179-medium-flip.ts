@@ -11,10 +11,14 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Flip<T> = {
+type Flip_1<T> = {
   [k in keyof T as T[k] extends string | number | boolean
     ? `${T[k]}`
     : never]: k;
+};
+
+type Flip<T extends Record<string, string | number | boolean>> = {
+  [k in keyof T as `${T[k]}`]: k;
 };
 
 type X = Flip<{ pi: 3.14; bool: true }>;
