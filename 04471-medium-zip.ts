@@ -10,11 +10,18 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Zip<T extends any[], U extends any[], Z extends any[] = []> = T extends [
+type Zip_1<T extends any[], U extends any[], Z extends any[] = []> = T extends [
   infer THead,
   ...infer TRest
 ]
   ? U extends [infer UHead, ...infer URest]
-    ? Zip<TRest, URest, [...Z, [THead, UHead]]>
+    ? Zip_1<TRest, URest, [...Z, [THead, UHead]]>
     : Z
   : Z;
+
+type Zip<T extends any[], U extends any[]> = [T, U] extends [
+  [infer L, ...infer RestT],
+  [infer R, ...infer RestU]
+]
+  ? [[L, R], ...Zip<RestT, RestU>]
+  : [];
