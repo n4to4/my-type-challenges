@@ -8,4 +8,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Without<T, U> = any;
+type ArrayToUnion<T> = T extends any[] ? T[number] : T;
+
+type Without<T, U, R extends any[] = []> = T extends [infer Head, ...infer Rest]
+  ? Head extends ArrayToUnion<U>
+    ? Without<Rest, U, R>
+    : Without<Rest, U, [...R, Head]>
+  : R;
