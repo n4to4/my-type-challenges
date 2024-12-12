@@ -12,4 +12,8 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type TrimRight<S extends string> = any;
+type WhiteSpace = " " | "\t" | "\n";
+
+type TrimRight<T extends string> = T extends `${infer H}${WhiteSpace}`
+  ? TrimRight<H>
+  : T;
