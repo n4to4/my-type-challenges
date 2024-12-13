@@ -14,4 +14,13 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Trunc = any;
+type RemoveFrac<T extends string | number> =
+  `${T}` extends `${infer N}.${infer _}` ? `${N}` : `${T}`;
+
+type ToNumber<T extends string> = T extends "" ? "0" : T;
+
+type Trunc<T extends string | number> = ToNumber<RemoveFrac<T>>;
+
+type X1 = Trunc<0.1>;
+type X2 = Trunc<".3">;
+type X3 = Trunc<10>;
