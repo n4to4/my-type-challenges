@@ -25,7 +25,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type NumberRange<
+type NumberRange_1<
   L extends number,
   H extends number,
   R = never,
@@ -34,9 +34,25 @@ type NumberRange<
 > = Idx["length"] extends H
   ? R | Idx["length"]
   : Idx["length"] extends L
-  ? NumberRange<L, H, R | Idx["length"], [...Idx, any], true>
+  ? NumberRange_1<L, H, R | Idx["length"], [...Idx, any], true>
   : InRange extends true
-  ? NumberRange<L, H, R | Idx["length"], [...Idx, any], true>
-  : NumberRange<L, H, R, [...Idx, any], false>;
+  ? NumberRange_1<L, H, R | Idx["length"], [...Idx, any], true>
+  : NumberRange_1<L, H, R, [...Idx, any], false>;
 
 type X1 = NumberRange<0, 2>;
+
+type NumberRange_2<L extends number, H extends number> =
+  | L
+  | Exclude<ZeroToN<H>, ZeroToN<L>>;
+type ZeroToN<N extends number, Idx extends any[] = []> = Idx["length"] extends N
+  ? Idx["length"]
+  : Idx["length"] | ZeroToN<N, [...Idx, any]>;
+
+type X2 = ZeroToN<0>;
+type X3 = ZeroToN<1>;
+
+type Utils<L, C extends any[] = [], R = L> = C["length"] extends L
+  ? R
+  : Utils<L, [...C, 0], C["length"] | R>;
+
+type NumberRange<L, H> = L | Exclude<Utils<H>, Utils<L>>;
