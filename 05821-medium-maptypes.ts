@@ -65,13 +65,12 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-interface Mapper<A, B> {
-  mapFrom: A;
-  mapTo: B;
-}
-
-type MapTypes<T, R extends Mapper<any, any>> = {
-  [k in keyof T]: T[k] extends R["mapFrom"] ? R["mapTo"] : T[k];
+type MapTypes<T, R extends { mapFrom: any; mapTo: any }> = {
+  [k in keyof T]: T[k] extends R["mapFrom"]
+    ? R extends { mapFrom: T[k] }
+      ? R["mapTo"]
+      : never
+    : T[k];
 };
 
 type X1 = MapTypes<
