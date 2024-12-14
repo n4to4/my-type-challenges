@@ -84,3 +84,13 @@ type X2 = MapTypes<
 >;
 
 type X3 = string extends Date ? true : false;
+
+type X4 = { mapFrom: string; mapTo: number } extends { mapFrom: string }
+  ? true
+  : false;
+
+type X5 =
+  | { mapFrom: string; mapTo: boolean }
+  | { mapFrom: Date; mapTo: string } extends { mapFrom: string }
+  ? true
+  : false;
