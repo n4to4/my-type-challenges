@@ -20,4 +20,16 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Unique<T> = any;
+type ArrayToUnion<T extends any[]> = T[number];
+
+type Unique<T extends any[], R extends any[] = []> = T extends [
+  infer Head,
+  ...infer Tail
+]
+  ? Head extends ArrayToUnion<R>
+    ? Unique<Tail, R>
+    : Unique<Tail, [...R, Head]>
+  : R;
+
+type X1 = Unique<[1, 1, 2, 2, 3, 3]>;
+type X2 = Unique<[string, number, 1, "a", 1, string, 2, "b", 2, number]>;
