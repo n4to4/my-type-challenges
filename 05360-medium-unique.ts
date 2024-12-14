@@ -20,13 +20,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ArrayToUnion<T extends any[]> = T[number];
+type Includes<T, U> = U extends [infer F, ...infer Rest]
+  ? Equal<F, T> extends true
+    ? true
+    : Includes<T, Rest>
+  : false;
 
 type Unique<T extends any[], R extends any[] = []> = T extends [
   infer Head,
   ...infer Tail
 ]
-  ? Head extends ArrayToUnion<R>
+  ? Includes<Head, R> extends true
     ? Unique<Tail, R>
     : Unique<Tail, [...R, Head]>
   : R;
