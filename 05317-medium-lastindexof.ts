@@ -13,13 +13,10 @@ type cases = [
 type Identical<T, U> = T extends U ? (U extends T ? true : false) : false;
 type Shift<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;
 
-type LastIndexOf<T extends any[], U, Idx extends any[] = T> = T extends [
-  ...infer L,
-  infer R
-]
+type LastIndexOf<T extends any[], U> = T extends [...infer L, infer R]
   ? Identical<R, U> extends true
-    ? Shift<Idx>["length"]
-    : LastIndexOf<L, U, Shift<Idx>>
+    ? L["length"]
+    : LastIndexOf<L, U>
   : -1;
 
 type X1 = LastIndexOf<[1, 2, 3, 2, 1], 2>;
