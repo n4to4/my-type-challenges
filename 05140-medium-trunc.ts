@@ -14,8 +14,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type RemoveFrac<T extends string | number> =
-  `${T}` extends `${infer N}.${infer _}` ? `${N}` : `${T}`;
+type RemoveFrac<T extends string | number> = `${T}` extends `${infer N}.${any}`
+  ? `${N}`
+  : `${T}`;
 
 type ToNumber<T extends string> = T extends "" ? "0" : T;
 
