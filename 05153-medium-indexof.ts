@@ -12,4 +12,15 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IndexOf<T, U> = any;
+type Identical<T, U> = T extends U ? (U extends T ? true : false) : false;
+
+type IndexOf<T, U, Idx extends any[] = []> = T extends [
+  infer Head,
+  ...infer Tail
+]
+  ? Identical<Head, U> extends true
+    ? Idx["length"]
+    : IndexOf<Tail, U, [...Idx, 0]>
+  : -1;
+
+type X1 = IndexOf<[string, 1, number, "a"], number>;
