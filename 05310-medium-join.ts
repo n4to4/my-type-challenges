@@ -10,4 +10,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Join<T, U> = any;
+type Prefix<
+  T extends string,
+  U extends string | number,
+  R extends string
+> = R extends "" ? T : `${R}${U}${T}`;
+
+type Join<T, U extends string | number, R extends string = ""> = T extends [
+  infer Head extends string,
+  ...infer Tail extends string[]
+]
+  ? Join<Tail, U, Prefix<Head, U, R>>
+  : R;
+
+type X1 = Join<["a", "p", "p", "l", "e"], "-">;
