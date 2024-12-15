@@ -25,4 +25,12 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Combination<T extends string[]> = any;
+type Combination<
+  T extends string[],
+  All = T[number],
+  Item = All
+> = Item extends string
+  ? Item | `${Item} ${Combination<[], Exclude<All, Item>>}`
+  : never;
+
+type X1 = Combination<["foo", "bar", "baz"]>;
