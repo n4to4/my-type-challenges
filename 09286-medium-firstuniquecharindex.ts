@@ -10,7 +10,7 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Dup<
+type Includes<
   Char extends string,
   Str extends string
 > = Str extends `${string}${Char}${string}` ? true : false;
@@ -20,10 +20,8 @@ type FirstUniqueCharIndex<
   Prefix extends string = "",
   Idx extends any[] = []
 > = T extends `${infer First}${infer Rest}`
-  ? Rest extends `${string}${First}${string}`
+  ? Includes<First, `${Prefix}${Rest}`> extends true
     ? FirstUniqueCharIndex<Rest, `${Prefix}${First}`, [...Idx, any]>
-    : Prefix extends `${string}${First}${string}`
-    ? FirstUniqueCharIndex<Rest, `${Prefix}`, [...Idx, any]>
     : Idx["length"]
   : -1;
 
