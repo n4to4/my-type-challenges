@@ -21,4 +21,10 @@ type cases = [
 type error = GetMiddleElement<1, 2, 3>;
 
 // ============= Your Code Here =============
-type GetMiddleElement<T> = any;
+type GetMiddleElement<T extends any[]> = T extends [any, any]
+  ? T
+  : T extends [any, ...infer Middle, any]
+  ? GetMiddleElement<Middle>
+  : T;
+
+type X1 = GetMiddleElement<[1, 2, 3, 4, 5, 6]>;
