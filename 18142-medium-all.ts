@@ -20,4 +20,8 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type All = any;
+type All<T extends any[], E extends any> = T extends [infer Head, ...infer Tail]
+  ? Equal<Head, E> extends true
+    ? All<Tail, E>
+    : false
+  : true;
