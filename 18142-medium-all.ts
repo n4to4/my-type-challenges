@@ -21,7 +21,13 @@ type cases = [
 
 // ============= Your Code Here =============
 type All<T extends any[], E extends any> = T extends [infer Head, ...infer Tail]
-  ? Equal<Head, E> extends true
+  ? IsEqual<Head, E> extends true
     ? All<Tail, E>
     : false
   : true;
+
+type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
+  ? 1
+  : 2
+  ? true
+  : false;
