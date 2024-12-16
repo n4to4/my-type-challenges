@@ -30,7 +30,7 @@ type ExpectedResult = {
 type cases = [Expect<Equal<ToPrimitive<PersonInfo>, ExpectedResult>>];
 
 // ============= Your Code Here =============
-type ToPrimitive<T> = {
+type ToPrimitive1<T> = {
   [k in keyof T]: Prim<T[k]>;
 };
 
@@ -48,3 +48,15 @@ type Prim<T> = T extends number
 
 type X0 = ToPrimitive<PersonInfo>;
 type X1 = ToPrimitive<{ x: "foo" }>;
+
+type ToPrimitive<T> = T extends Function
+  ? Function
+  : T extends object
+  ? { [K in keyof T]: ToPrimitive<T[K]> }
+  : T extends { valueOf(): infer R }
+  ? R
+  : T;
+
+type Fn<T> = T extends { valueOf: () => infer R } ? R : T;
+type X2 = Fn<"foo">;
+type X3 = Fn<42>;
