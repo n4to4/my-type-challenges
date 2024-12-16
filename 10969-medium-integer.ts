@@ -1,6 +1,5 @@
 // ============= Test Cases =============
 import type { Equal, Expect } from "./test-utils";
-import { ExpectFalse, NotEqual } from "./test-utils";
 
 let x = 1;
 let y = 1 as const;
@@ -18,4 +17,12 @@ type cases1 = [
 ];
 
 // ============= Your Code Here =============
-type Integer<T> = any;
+type Integer1<T extends number> = `${T}` extends `${bigint}` ? T : never;
+
+type Integer<T extends string | number> = number extends T
+  ? never
+  : `${T}` extends `${string}.${string}`
+  ? never
+  : T;
+
+type X1 = Integer<1.0>;
