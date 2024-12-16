@@ -76,24 +76,10 @@ type errors = [
 ];
 
 // ============= Your Code Here =============
-type DeepMutable<T extends object> = {
-  -readonly [k in keyof T]: T[k] extends object
-    ? DeepMutable<T[k]>
-    : T[k] extends any[]
-    ? Arr<T[k]>
-    : T[k];
-};
-
-type Arr<T extends any[]> = T extends [infer Head, ...infer Tail]
-  ? Head extends object
-    ? [DeepMutable<Head>, ...Arr<Tail>]
-    : [Head, ...Arr<Tail>]
-  : [];
-
-type X1 = DeepMutable<Test1>;
-type X2 = DeepMutable<Test2>;
-type X3 = DeepMutable<{ readonly x: string; y: number }>;
-type X4 = DeepMutable<{
-  readonly x: string;
-  readonly y: readonly ["hey", { readonly arr: 42 }];
-}>;
+type DeepMutable<T extends Record<keyof any, any>> = T extends (
+  ...args: any[]
+) => any
+  ? T
+  : {
+      -readonly [K in keyof T]: DeepMutable<T[K]>;
+    };
