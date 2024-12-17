@@ -16,4 +16,17 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type FindAll<T extends string, P extends string> = any;
+type FindAll<
+  T extends string,
+  P extends string,
+  Idx extends any[] = [],
+  R extends number[] = []
+> = P extends ""
+  ? []
+  : T extends `${infer _}${infer Rest}`
+  ? T extends `${P}${string}`
+    ? FindAll<Rest, P, [...Idx, any], [...R, Idx["length"]]>
+    : FindAll<Rest, P, [...Idx, any], R>
+  : R;
+
+type X1 = FindAll<"aaa", "a">;
