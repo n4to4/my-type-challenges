@@ -13,4 +13,11 @@ type CaseTypeOne =
 type cases = [Expect<Equal<Combs<ModifierKeys>, CaseTypeOne>>];
 
 // ============= Your Code Here =============
-type Combs<T extends any[]> = any;
+type Combs<T extends string[]> = T extends [
+  infer Head extends string,
+  ...infer Tail extends string[]
+]
+  ? `${Head & string} ${Tail[number]}` | Combs<Tail>
+  : never;
+
+type X1 = Combs<ModifierKeys>;
