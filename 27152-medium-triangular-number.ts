@@ -12,4 +12,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Triangular<N extends number> = any;
+type Triangular<
+  N extends number,
+  Idx extends number[] = [],
+  R extends number[] = []
+> = Idx["length"] extends N
+  ? R["length"]
+  : Triangular<N, [...Idx, 0], [...R, ...Idx, 0]>;
