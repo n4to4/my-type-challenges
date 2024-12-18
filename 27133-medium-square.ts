@@ -16,4 +16,16 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Square<N extends number> = number;
+
+type Number<T extends number, Idx extends any[] = []> = Idx["length"] extends T
+  ? Idx
+  : Number<T, [...Idx, any]>;
+
+type Square<
+  N extends number,
+  Arr extends any[] = Number<N>,
+  Idx extends any[] = [],
+  R extends any[] = []
+> = Idx["length"] extends N
+  ? R["length"]
+  : Square<N, Arr, [...Idx, any], [...R, ...Arr]>;
