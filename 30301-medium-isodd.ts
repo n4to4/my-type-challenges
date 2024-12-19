@@ -9,12 +9,10 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type Even = 0 | 2 | 4 | 6 | 8;
-
-type IsOdd<T extends number> = T extends number
-  ? Equal<T, number> extends true
-    ? false
-    : `${T}` extends `${string}${Even}`
-    ? false
-    : true
+type Odd = 1 | 3 | 5 | 7 | 9;
+type IsOdd<T extends number> = `${T}` extends `${number | ""}${Odd}`
+  ? true
   : false;
+
+type F1<T extends number> = `${T}` extends number ? 1 : 2;
+type X1 = F1<number>;
