@@ -11,4 +11,11 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type CheckRepeatedTuple<T extends unknown[]> = any;
+type CheckRepeatedTuple<
+  T extends unknown[],
+  Seen extends any[] = []
+> = T extends [infer Head, ...infer Tail]
+  ? Head extends Seen[number]
+    ? true
+    : CheckRepeatedTuple<Tail, [...Seen, Head]>
+  : false;
