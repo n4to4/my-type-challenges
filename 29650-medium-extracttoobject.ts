@@ -51,4 +51,9 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type ExtractToObject<T, U> = any;
+type ExtractToObject<T extends object, U extends keyof T> = Omit<
+  Omit<T, U> & T[U],
+  never
+>;
+
+type X1 = ExtractToObject<test1, "myProp">;
