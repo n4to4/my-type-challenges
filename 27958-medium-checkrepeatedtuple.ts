@@ -1,6 +1,5 @@
 // ============= Test Cases =============
 import type { Equal, Expect } from "./test-utils";
-import { ExpectFalse, NotEqual } from "./test-utils";
 
 type cases = [
   Expect<Equal<CheckRepeatedTuple<[number, number, string, boolean]>, true>>,
