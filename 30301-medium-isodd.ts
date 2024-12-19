@@ -9,4 +9,12 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type IsOdd<T extends number> = any;
+type Even = 0 | 2 | 4 | 6 | 8;
+
+type IsOdd<T extends number> = T extends number
+  ? Equal<T, number> extends true
+    ? false
+    : `${T}` extends `${string}${Even}`
+    ? false
+    : true
+  : false;
