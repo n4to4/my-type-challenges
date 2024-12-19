@@ -19,4 +19,27 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type MergeAll<XS> = any;
+type MergeAll<
+  T extends any[],
+  R extends Record<PropertyKey, any> = {}
+> = T extends [infer Head, ...infer Tail]
+  ? MergeAll<
+      Tail,
+      Omit<
+        Omit<R, keyof Head> & {
+          [k in keyof Head]: k extends keyof R ? R[k] | Head[k] : Head[k];
+        },
+        never
+      >
+    >
+  : R;
+
+type X1 = MergeAll<[{}, { a: 1 }, { a: 2 }]>;
+type F1<
+  T extends Record<PropertyKey, any>,
+  K extends PropertyKey
+> = K extends keyof T ? T[K] : false;
+type X2 = F1<{ a: 1 }, "b">;
+type X3 = MergeAll<[{ a: 1 }]>;
+type X4 = MergeAll<[{ a: 1 }, { a: 10; c: 2 }]>;
+type X5 = Omit<{ a: 1 } & { a: 1 | 2 | 3 }, never>;
