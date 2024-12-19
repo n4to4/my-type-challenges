@@ -12,4 +12,6 @@ type cases = [
 ];
 
 // ============= Your Code Here =============
-type PublicType<T extends object> = any;
+type PublicType<T extends object> = {
+  [k in keyof T as `${k & string}` extends `_${string}` ? never : k]: T[k];
+};
