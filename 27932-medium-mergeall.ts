@@ -25,14 +25,11 @@ type MergeAll<
 > = T extends [infer Head, ...infer Tail]
   ? MergeAll<
       Tail,
-      Omit<
-        Omit<R, keyof Head> & {
-          [k in keyof Head]: k extends keyof R ? R[k] | Head[k] : Head[k];
-        },
-        never
-      >
+      Omit<R, keyof Head> & {
+        [k in keyof Head]: k extends keyof R ? R[k] | Head[k] : Head[k];
+      }
     >
-  : R;
+  : Omit<R, never>;
 
 type X1 = MergeAll<[{}, { a: 1 }, { a: 2 }]>;
 type F1<
